@@ -1,6 +1,8 @@
 // autor: Adriano Marino Balera adriano.marino1992@gmail.com
 // Feito no Estagio Jacareí/Fatec 2018/2019
 
+const host = `http://192.168.0.148:443`; // altera para "http://SEU_IP_AQUI:443"
+
 
 /* variaveis globais */
 
@@ -28,7 +30,7 @@ var desenharInteracionOpened = false;
 var desenharInteraction;
 var medirInteracionOpened = false;
 var medirInteraction;
-const host = `http://192.168.0.148:443`;
+
 var add_arquivoToolActived = false;
 var acessar_arquivoToolActived = false;
 
