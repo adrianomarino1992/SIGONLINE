@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tiled ArcGIS MapServer</title>
+    <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css">
+    <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+    <script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>
+  </head>
+  <body>
+    <div id="map" class="map"></div>
+    <script>
+      var url = 'http://mapasinterativos.ibge.gov.br/arcgis/rest/services/BIOMA/MapServer';
+
+      var layers = [
+        new ol.layer.Tile({
+          source: new ol.source.OSM()
+        }),
+        new ol.layer.Tile({
+          extent: [-91.41345353873939, -21.196269495727666, -17.39034593026053, 7.200731811200072],
+          source: new ol.source.TileArcGISRest({
+            url: url
+          })
+        })
+      ];
+      var map = new ol.Map({
+        layers: layers,
+        target: 'map',
+        view: new ol.View({
+          center: [-10997148, 4569099],
+          zoom: 4
+        })
+      });
+    </script>
+  </body>
+</html>

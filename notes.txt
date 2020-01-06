@@ -1,0 +1,98 @@
+ESTILOS IMPLEMENTAR POSTERIORMENTE
+<div class="flex_box">
+    <h2>ESTILO</h2>
+    <img src="img/expandirBlack.png" alt="Expandir" title="Expandir">
+    <ul>
+        <li class="flex_box">
+            <img src="img/radioOnBlack.png" alt="Radio Selecionado" title="Radio Selecionado">Simples</li>
+        <li class="flex_box">
+            <img src="img/radioOffBlack.png" alt="Radio Deselecionado" title="Radio Deselecionado">Categorizado</li>
+        <li class="flex_box">
+            <img src="img/radioOffBlack.png" alt="Radio Deselecionado" title="Radio Deselecionado">Graduado</li>
+    </ul>
+</div>
+
+RANDOM
+// 0 -> 10
+Math.floor(Math.random() * 11);
+// 1 -> 10
+Math.floor(Math.random() * 10) + 1;
+
+NO MOMENTO DE CRIAR OS LI DAS FAZENDAS E DA CLASSIFICAÇÃO DINÂMNICAMENTE COM O BANCO
+COLOCAR O ID DO ELEMENTO LI COMO SENDO O NOME DA COLUNA DA TABELA PARA FACILITAR
+A LÓGICA DA VISIBILIDADE DAS CAMADAS
+
+ESTUDAR MELHOR ASYNC AWAIT PROMISSE CALLBACK
+
+===============
+function setFilter(ul_farm, ul_classify, list_filter) {
+    let layer = getActiveLayer(ul_farm); // GET THE ACTIVE LAYER
+    let tree_source = layer.getSource();
+    let tree_feature = tree_source.getFeatures();
+
+    let fill = null;
+    let stroke = null;
+    let r = null;
+    let g = null;
+    let b = null;
+
+    let tree_array = getFilterValues(ul_farm, ul_classify); // GET FILTER VALUES
+    let classify = getActiveClassify(ul_classify); // GET THE ACTIVE CLASSIFY
+    let active_filter = getActiveFilter(list_filter); // GET ACTIVE FILTER
+
+    let str_tree_array = tree_array.map(String);
+    let str_active_filter = active_filter.map(String);
+
+    // VERIFICAR OS DESLIGADOS
+    // VERIFICAR SE ESTILO == NULL
+
+    for (let j = 0; j < tree_feature.length; j++) {
+        tree_feature[j].setStyle(null);
+    }
+
+    for (let count of str_active_filter) {
+        r = Math.floor(Math.random() * 255);
+        g = Math.floor(Math.random() * 255);
+        b = Math.floor(Math.random() * 255);
+
+        fill = `rgba(${r}, ${g}, ${b}, 0.3)`;
+        stroke = `rgba(${r}, ${g}, ${b}`;
+
+        for (let j = 0; j < tree_feature.length; j++) {
+            if (tree_feature[j].get(classify.attr('id')) == count) {
+                tree_feature[j].setStyle(newVectorStyle(fill, stroke));
+            }
+        }
+    }
+};
+
+
+-----------
+PARA TRANSFORMAR UM ARRAY EM String
+let str_tree_array = tree_array.map(String);
+let str_active_filter = active_filter.map(String);
+
+FAZER BOTÃO OU LINK MOSTRAR NO MAPA NA TELA DE PESQUISA E INFORMAÇÕES DETALHADAS QUANDO O USUÁRIO ENTRAR COM A INFORMAÇÃO DE UMA ÁRVORE AO CLICAR DIRECIONAR PARA O MAPA E SELECIONAR A FEIÇÃO PESQUISADA
+FAZER POPUP PARA FEIÇÃO SELECIONADA COM ID DA ÁRVORE E UM BOTÃO OU LINK VER INFORMAÇÕES DETALHADAS E DIRECIONAR PARA A TELA DE INFORMAÇÕES DETALHADAS E PESQUISAR PELA ÁRVORE SELECIONADA
+
+FAZER FUNÇÃO LIMPA INPUT E UL DA TELA DE INFORMAÇÕES DETALHADAS E EXECUTAR QUANDO TROCAR DE FAZENDA CLASSIFICAÇÃO FILTRO
+
+
+
+---- openlayers select
+// var select = new ol.interaction.Select({
+//     style: selected_style,
+//     layers: [
+//         mirante_tree_layer,
+//         quintao_tree_layer,
+//         miradouro_tree_layer,
+//     ]
+// });
+
+// map.addInteraction(select);
+// select.on('select', (e) => {
+//     // console.log(e.target.getFeatures().getLength());
+// });
+
+=======
+

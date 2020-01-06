@@ -1,0 +1,98 @@
+<html>
+
+<head>
+
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    <script src="http://js.api.here.com/v3/3.0/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://js.api.here.com/v3/3.0/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../jquery/jquery-3.3.1.js"></script>
+
+</head>
+
+<body>
+
+    <div style="width: 640px; height: 480px" id="mapContainer"></div>
+
+    <script>
+       // var all_objs = [];
+        var allJSON = [];
+        var cont = 0;
+        var allEnderecos = [];
+        var all_objs = [];
+        var allResults = [];
+        var rodada = 0;
+        var erros =[];
+
+
+      $.when( $.getJSON(`http://10.68.54.169:443/enderecos/destino`, (data) => {
+
+            for (var i of data) {
+                
+                obj_street = {
+                    searchText: `${i.v11.trim()}, ${i.v13.trim()}, São Paulo, Brasil`,
+                    jsonattributes: 1,
+                    maxresults: 1 // LIMIT RESULTS
+                };
+                allEnderecos.push(i.v13);
+                all_objs.push(obj_street);
+
+var url = `https://geocoder.cit.api.here.com/6.2/geocode.json?searchtext=${obj_street.searchText}&app_id=Nn0XTbEYAgc3GGSIFZ24&app_code=6DHqOdzZQOkMO5Qcvd5T2w&gen=8`;
+$.getJSON(encodeURI(url), (data) => {
+    
+    if (data.Response.View[0]) {
+           var endereco = { 'rua': data.Response.View[0].Result[0].Location.Address.Label, 'coordenadas': data.Response.View[0].Result[0].Location.DisplayPosition };
+          allResults.push(endereco);//console.log(endereco);
+       //console.log(endereco);
+       //console.log(`RUA DA HERE : ${data.Response.View[0].Result[0].Location.Address.Label}, RUA DO BANCO : ${i.searchText}`);  
+       print(endereco);
+        
+        
+        //  txt +=`UPDATE mujac_1 SET v25 = ${data.Response.View[0].Result[0].Location.DisplayPosition.Latitude}, v26 = ${data.Response.View[0].Result[0].Location.DisplayPosition.Longitude} WHERE v12 ilike '%${i.v08.trim()}%';\r\n`
+       //console.log(rodada);
+        rodada++;
+    }else{
+        console.error(rodada);
+       
+        erros.push(rodada);
+        rodada++;
+        
+    }
+})
+
+
+
+            }
+        })).then(()=>{
+            // for(var i of erros){
+            //   // allEnderecos[148];
+            // }
+        })
+        
+
+
+function print(endereco){
+   // console.log(`RUA DA HERE : ${endereco.rua}, RUA DO BANCO : ${allEnderecos[rodada]}`); 
+    console.log(`UPDATE mujac_1 SET v27 = ${endereco.coordenadas.Latitude}, v28 = ${endereco.coordenadas.Longitude} WHERE v12 ilike '%${allEnderecos[rodada].trim()}%';`);
+}
+
+
+
+
+
+
+
+        // INITIALIZE THE PLATFORM OBJECT 
+        // let platform = new H.service.Platform({
+        //     'app_id': 'DpaYQjMHeJkxkm6eAnkW',
+        //     'app_code': 'OJWI_HCMhnxV5-SestMo4Q',
+        //     // useHTTPS: true // TO USE IN THE FUTURE
+        // });
+
+
+
+
+    </script>
+
+</body>
+
+</html>

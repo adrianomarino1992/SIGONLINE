@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <!-- TITLE -->
+    <title>Conecta Jacarei</title>
+    <!-- ENCODING -->
+    <meta charset="utf-8" />
+    <!-- DOCUMENT AREA -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- DESCRIPTION -->
+    <meta name="description" content="Aplicação para acesso e modificação de dados">
+    <!-- KEY WORDS -->
+    <meta name="keywords" content="SIG, Geodésia, Agrimensura, Cartografia, Geoprocessamento">
+    <!-- DEFAULT DOCUMENT -->
+    <meta name="robots" content="index, follow">
+    <!-- AUTHOR -->
+    <meta name="author" content="Adriano Marino Balera">
+    <!-- FONT -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
+    <!-- OPENLAYERS CSS -->
+    <link rel="stylesheet" type="text/css" media="screen" href="ol_465/ol.css" />
+    <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js"></script>
+    <script src="https://files.codepedia.info/files/uploads/iScripts/html2canvas.js"></script>
+
+
+    <!-- ICON -->
+    <!-- MANIFEST -->
+</head>
+
+<body>
+
+    <div id="fullMenu" draggable=true>
+        <div id="logotipo">
+            <!-- <img src="img/earth.png" id="logoIMG"> -->
+            <h2 id="juntoaologo">CONECTA JACAREÍ</h2>
+            <h2 id="embaixologo">Prefeitura de Jacareí</h2>
+
+        </div>
+        <img src="img/logo_transparente.png" style="width:150px;margin-left:0px;margin-top: 5px;">
+
+        <button id="updateAttrsAsAdmin" style="display: none;">#updateAttrsAsAdmin</button>
+        <div id="div_camadas">
+
+           
+
+                <button id="camadas_btn">
+                    <img src="img/layers_transparente_black.png" style="width: 25px;">
+                    <h2 style="font-size: 15px;">Camadas</h2>
+                </button>
+
+                <button id="filtros_btn">
+                    <img src="img/protocolo.png" style="width: 25px;">
+                    <h2 style="font-size: 15px;">Filtrar</h2>
+                </button>
+
+                <button id="buscar_btn">
+                    <img src="img/buscar_black.jpg" style="width: 25px;">
+                    <h2 style="font-size: 15px;">Buscar</h2>
+                </button>
+
+            
+
+
+
+            <div id="div_layers">
+
+                <div id="div_camadas_btns">
+                    <div id="div_base_cartografica">
+                        <img src="img/folder.png" style="width: 50px;">
+                        <h2 style="position: absolute; top:20px;left: 60px;">Base cartografica</h2>
+                    </div>
+                    <div id="div_camadas_sub_folder">
+                        <div id="base_shp">
+                            <img src="img/folder.png" style="width: 50px;">
+                            <h2 style="position: absolute; top:20px;left: 60px;">Shape Files EPSG : 4326</h2>
+                        </div>
+                        <div class="foldersOpened" id="div_camadas_sub_folder_base_shp" style="display: none">
+                            <h2 class="cat_teme_folders" id="tb_cidade">nome_do_dado</h2>
+                            <h2 class="cat_teme_folders" id="tb_microregiao">outro_exemplo</h2>
+                            <!--
+                            <h2 class="cat_teme_folders" id="limite_jacarei">Limite Jacareí</h2>
+                            <h2 class="cat_teme_folders" id="ruas_jacarei">Ruas de Jacareí</h2> -->
+
+
+                            <!-- <h2 class="cat_teme_folders" id="altimetria_linha">Altimetria linhas</h2> 
+                            <h2 class="cat_teme_folders" id="altimetria_ponto">Altimetria pontos</h2>
+                            
+                            <h2 class="cat_teme_folders" id="quadras_jacarei">Quadras de Jacareí</h2>
+                            <h2 class="cat_teme_folders" id="lotes_jacarei">Lotes de Jacareí</h2>  -->
+
+                        </div>
+
+                    </div>
+                    <div id="secretaria_SMA">
+
+                        <img src="img/folder.png" style="width: 50px;">
+                        <h2 style="position: absolute; top:20px;left: 60px;">Secretaria Meio Ambiente</h2>
+                    </div>
+                    <div id="div_SMA_sub_folder">
+                        <div id="dados_SMA_Abastecimento_shp">
+                            <img src="img/folder.png" style="width: 50px;">
+                            <h2 style="position: absolute; top:20px;left: 60px;">Abastecimento (.shp EPSG:4326)</h2>
+                        </div>
+                        <div class="foldersOpened" id="div_camadas_sub_folder_SMA_abastecimento" style="display: none;margin-top: -17px;">
+                            <!-- <h2 class="cat_teme_folders" id="abastecimento_booster">Poços</h2>
+                            <h2 class="cat_teme_folders" id="abastecimento_pocos">Boosters</h2>
+                            <h2 class="cat_teme_folders" id="abastecimento_reservatorios">Reservatorios</h2> -->
+
+
+                        </div>
+                        <div id="dados_SMA_App_shp">
+                            <img src="img/folder.png" style="width: 50px;">
+                            <h2 style="position: absolute; top:20px;left: 60px;">APP (.shp EPSG:4326)</h2>
+                        </div>
+                        <div class="foldersOpened" id="div_camadas_sub_folder_SMA_app" style="display: none;margin-top: -17px;">
+                            <!-- <h2 class="cat_teme_folders" id="app_acudes">Acudes</h2>
+                            <h2 class="cat_teme_folders" id="app_federal">Federal</h2>
+                            <h2 class="cat_teme_folders" id="app_nascente">Nascentes</h2>
+                            <h2 class="cat_teme_folders" id="app_represa">Represa</h2>
+                            <h2 class="cat_teme_folders" id="app_rioparaiba_100m">Rio Paraíba 100m</h2>
+                            <h2 class="cat_teme_folders" id="app_riosmargemdupla">Rio margem dupla</h2>
+                            <h2 class="cat_teme_folders" id="app_riosmargemsimples">Rio margem simples</h2>
+                            <h2 class="cat_teme_folders" id="app_topodemorro">Topo de morro</h2> -->
+
+
+
+                        </div>
+
+                        <div id="dados_SMA_Uso_shp">
+                            <img src="img/folder.png" style="width: 50px;">
+                            <h2 style="position: absolute; top:20px;left: 60px;">Uso do solo (.shp EPSG:4326)</h2>
+                        </div>
+                        <div class="foldersOpened" id="div_camadas_sub_folder_SMA_Uso" style="display: none;margin-top: -17px;">
+                            <h2 class="cat_teme_folders" id="uso_da_terra">Uso da terra</h2>
+                            <!-- <h2 class="cat_teme_folders" id="agricultura_lupa">Agricultura Lupa</h2>
+                            <h2 class="cat_teme_folders" id="geologia">Geologia</h2> -->
+
+
+                        </div>
+
+                        <div id="dados_SMA_Infraestrutura_shp">
+                            <img src="img/folder.png" style="width: 50px;">
+                            <h2 style="position: absolute; top:20px;left: 60px;">Infraestrutura(.shp EPSG:4326)</h2>
+                        </div>
+                        <div class="foldersOpened" id="div_camadas_sub_folder_SMA_Infraestrutura" style="display: none;margin-top: -17px;">
+                            <h2 class="cat_teme_folders" id="ruas_jacarei">Ruas</h2>
+                            <h2 class="cat_teme_folders" id="rodovias">Rodovias</h2>
+                            <h2 class="cat_teme_folders" id="estradas_rurais">Estradas rurais</h2>
+                            <h2 class="cat_teme_folders" id="infraestrutura">Infraestrutura</h2>
+                            <h2 class="cat_teme_folders" id="pontos_onibus">Pontos de ônibus</h2>
+
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+                <div id="secretaria_GO">
+
+                    <img src="img/folder.png" style="width: 50px;">
+                    <h2 style="position: absolute; top:20px;left: 60px;">Secretaria do Governo</h2>
+                </div>
+                <div id="div_GO_sub_folder">
+                    <div id="dados_GO_shp">
+                        <img src="img/folder.png" style="width: 50px;">
+                        <h2 style="position: absolute; top:20px;left: 60px;">Shape Files EPSG : 4326</h2>
+                    </div>
+
+                </div>
+                <div id="secretaria_Fiscalizacao">
+
+                    <img src="img/folder.png" style="width: 50px;">
+                    <h2 style="position: absolute; top:20px;left: 60px;">Fiscalização</h2>
+                </div>
+                <div id="div_Fiscalizacao_sub_folder">
+                    <div id="dados_Fiscalizacao_shp">
+                        <img src="img/folder.png" style="width: 50px;">
+                        <h2 style="position: absolute; top:20px;left: 60px;">Shape Files EPSG : 4326</h2>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div id="divFiltrardados">
+                <div id="divFiltrardados_h2">
+                    <h2>Base Cartografica</h2>
+                    <h2>Secretaria do Meio Ambiente</h2>
+                    <h2>Secretaria do Governo</h2>
+                    <h2>Fiscalização</h2>
+                </div>
+                <div id="divFiltrardados_h2_fiscalizacao">
+                    <h2 style='text-align: center;margin: 10px;'>Fiscalização </h2>
+                    <h2 class="cat_teme">Secretaria :</h2>
+                    <select name="" id="cat_sel" class="sel_teme_white">
+                        <option value="SMA">Secretaria do Meio Ambiente</option>
+                        <option value="GOV">Secretaria do Governo</option>
+
+                    </select>
+
+                    <div id="divFiltrardadosFiscalizacaoOcorrencia">
+                        <h2 class="cat_teme">Categoria :</h2>
+                        <select name="" id="divFiltrardadosFiscalizacaoOcorrencia_cat_sel" class="sel_teme_white">
+
+                        </select>
+                        <h2 class="cat_teme">Subcategoria :</h2>
+                        <select name="" id="divFiltrardadosFiscalizacaoOcorrencia_subcat_sel" class="sel_teme_white"></select>
+                        <h2 class="cat_teme">Situação :</h2>
+                        <select name="" id="divFiltrardadosFiscalizacaoOcorrencia_status_sel" class="sel_teme_white">
+                            <option value="RECEBIDO">Recebido</option>
+                            <option value="VISUALIZADO">Visualizado</option>
+                            <option value="RESOLVIDO">Resolvido</option>
+                            <option value="FINALIZADO">Finalizado</option>
+                            <option value="DELETADO">Deletado</option>
+                        </select>
+                        <button id="divFiltrardadosFiscalizacaoOcorrencia_exec">Carregar</button>
+                    </div>
+
+
+                </div>
+
+                <div id="divFiltrardados_h2_Base_cartografica">
+                    <h2 style='text-align: center;margin: 10px;'>Base Cartografica </h2>
+                    <h2 class="cat_teme">Tipo de dado :</h2>
+                    <select name="" id="cat_sel" class="sel_teme_white">
+                        <option value="Iluminacao Pública">Vetor</option>
+
+
+                    </select>
+
+                    <h2 class="cat_teme">Escolha o arquivo : </h2>
+                    <select name="" id="divFiltrardados_h2_Base_cartografica_sel_data" class="sel_teme_white">
+                        <option value="cidades">Cidade do Brasil</option>
+                        <option value="limite_jacarei">Limite Jacareí</option>
+                        <option value="altimetria_linha">Altimetria linhas</option>
+                        <option value="altimetria_ponto">Altimetria pontos</option>
+                        <option value="ruas_jacarei">Ruas de Jacareí</h2>
+                            <option value="quadras_jacarei">Quadras de Jacareí</option>
+                            <option value="lotes_jacarei">Lotes de Jacareí</option>
+                    </select>
+
+
+                    <button id="divFiltrardados_h2_Base_cartografica_buttom">Carregar</button>
+
+
+                </div>
+
+
+                <div id="divFiltrardados_h2_Base_SMA">
+                    <h2 style='text-align: center;margin: 10px;'>Base Cartografica </h2>
+                    <h2 class="cat_teme">Tipo de dado :</h2>
+                    <select name="" id="cat_sel" class="sel_teme_white">
+                        <option value="Iluminacao Pública">Vetor</option>
+
+
+                    </select>
+                    <h2 class="cat_teme">Categoria :</h2>
+                    <select name="" id="cat_sel" class="sel_teme_white">
+                        <option value="Iluminacao Pública">Abastecimento</option>
+                        <option value="Iluminacao Pública">APPs</option>
+                        <option value="Iluminacao Pública">Uso do solo</option>
+                        <option value="Iluminacao Pública">Infraestrutura</option>
+
+
+                    </select>
+                    <h2 class="cat_teme">Escolha o arquivo : </h2>
+                    <select name="" id="divFiltrardados_h2_Base_SMA_sel_data" class="sel_teme_white">
+
+                    </select>
+
+
+                    <button id="divFiltrardados_h2_Base_cartografica_buttom">Carregar</button>
+
+
+
+                </div>
+
+
+                <div id="divFiltrardados_h2_Base_GOV">
+                    <h2 style='text-align: center;margin: 10px;'>Base Cartografica </h2>
+                    <h2 class="cat_teme">Tipo de dado :</h2>
+                    <select name="" id="cat_sel" class="sel_teme_white">
+                        <option value="Iluminacao Pública">Vetor</option>
+
+
+                    </select>
+                    <h2 class="cat_teme">Categoria :</h2>
+                    <select name="" id="cat_sel" class="sel_teme_white">
+                        <option value="Iluminacao Pública">SHP de Jacarei</option>
+
+                    </select>
+                    <h2 class="cat_teme">Escolha o arquivo : </h2>
+                    <select name="" id="divFiltrardados_h2_Base_GOV_sel_data" class="sel_teme_white">
+                        <option value="cidades">Cidade do Brasil</option>
+                        <option value="limite_jacarei">Limite Jacareí</option>
+                        <option value="altimetria_linha">Altimetria linhas</option>
+                        <option value="altimetria_ponto">Altimetria pontos</option>
+                        <option value="ruas_jacarei">Ruas de Jacareí</h2>
+                            <option value="quadras_jacarei">Quadras de Jacareí</option>
+                            <option value="lotes_jacarei">Lotes de Jacareí</option>
+                    </select>
+
+
+                    <button id="divFiltrardados_h2_Base_cartografica_buttom">Carregar</button>
+
+
+                </div>
+
+
+
+            </div>
+            <div id="editor"></div>
+
+            <div id="divBuscar" style="padding: 15px;">
+                <h2 style='text-align: center;margin: 10px;'>Buscar </h2>
+                <h2 class="cat_teme">Tipo de buscar : </h2>
+                <select name="" id="buscar_tipo" class="sel_teme_white">
+                    <option value="protocolo">Buscar Protocolo</option>
+                    <option value="metadado">Metadado</option>
+
+                </select>
+
+                <div id="divBuscar_protocolo" style="display: block;">
+                    <h2 class="cat_teme">Secretaria : </h2>
+                    <select name="" id="protocolo_secretaria" class="sel_teme_white">
+                        <option value="SMA">Secretaria do Meio Ambiente</option>
+                        <option value="GOV">Secretaria do Governo</option>
+
+                    </select>
+                    <h2 class="cat_teme">Protocolo : </h2>
+                    <input type="text" id="buscar_protocolo" class="input" placeholder="Protocolo">
+
+                    <button id="buscar_protocolo_btn">Buscar</button>
+
+                </div>
+                <div id="buscar_result" style="padding: 10px;">
+
+                </div>
+                <div id="divBuscar_metadado" style="display: none;">
+                    <h2 class="cat_teme">Tipo de dado : </h2>
+                    <select name="" id="metadado_categoria" class="sel_teme_white">
+                        <option value="GeoJSON">.geojson</option>
+                        <option value="ortofotos">Ortofoto</option>
+
+                    </select>
+                    <button id="buscar_meta_btn">Buscar</button>
+
+                    <div id="meta_search_result" style="padding: 10px;">
+
+                    </div>
+                </div>
+                <div id="divBuscar_arquivos" style="display: none;">
+                    <h2 class="cat_teme">fonte de dado : </h2>
+                    <select name="" id="arquivo_categoria" class="sel_teme_white">
+
+
+
+                    </select>
+
+                    <button id="buscar_arquivo_btn">Buscar</button>
+                    <h2 class="cat_teme" style="margin-top: 10px;">Arquivos : </h2>
+                    <div id="arquivo_search_result" style="padding: 10px;">
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+
+
+    </div>
+
+
+
+    </div>
+
+    </div>
+
+
+
+
+
+
+    <!-- MAIN -->
+    <main class="flex_box">
+
+        <!-- SECTION MAP -->
+        <section id="map" class="flex_box section_fixed">
+        </section>
+
+
+
+    </main>
+
+
+
+    <div id="loaderBack">
+        <h1 id="carregando">Carregando</h1>
+    </div>
+
+    <div id="map_layers" draggable=true>
+
+    </div>
+
+    <div id="popup" draggable=true>
+
+    </div>
+
+    <div id="fotoGrande">
+
+    </div>
+
+    <div id="gradeTools" draggable=true>
+        <h2 class="cat_teme">Cor do vetor : </h2>
+        <input type="color" id="cor_layer_style_grade" style="width: 100px;">
+        <h2 class="cat_teme">Largura da linha : </h2>
+        <select name="" id="largura_linha_style_grade" class="sel_teme_white">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="0">Remover</option>
+        </select>
+        <h2 class="cat_teme">Estilo da linha : </h2>
+        <select name="" id="largura_linha_type_grade" class="sel_teme_white">
+            <option value="solida">Solida</option>
+            <option value="ponto">Pontilhada</option>
+
+        </select>
+        <button id="style_aplicar_grade_buttom">Aplicar</button>
+
+    </div>
+
+
+    <div id="styleTools" draggable=true>
+        <h2 class="cat_teme">Layer :</h2>
+        <select name="" id="layer_style" class="sel_teme_white">
+
+        </select>
+        <h2 class="cat_teme">Estilo :</h2>
+        <select name="" id="tipo_de_estilo" class="sel_teme_white">
+            <option value="1">Estilo Simples</option>
+            <option value="2">Categorizado</option>
+
+        </select>
+        <div id="estilo_simples" style="display: block;">
+            <h2 class="cat_teme">Cor do vetor : </h2>
+            <input type="color" id="cor_layer_style" style="width: 100px;">
+            <h2 class="cat_teme">Contorno do vetor :</h2>
+            <input type="color" id="con_layer_style" style="width: 100px;">
+            <h2 class="cat_teme">Largura da linha : </h2>
+            <select name="" id="largura_linha_style" class="sel_teme_white">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <button id="style_aplicar_buttom">Aplicar</button>
+        </div>
+        <div id="estilo_categoriazado" style="display: none;">
+            <h2 class="cat_teme">Classificar por :</h2>
+
+            <select name="" id="campos_categoriazado" class="sel_teme_white">
+
+            </select>
+            <h2 class="cat_teme">Valor unico :</h2>
+            <select name="" id="valores_categoriazado" class="sel_teme_white">
+
+            </select>
+            <h2 class="cat_teme">Cor do vetor : </h2>
+            <input type="color" id="cor_layer_style_categoriazado" style="width: 100px;">
+
+            <h2 class="cat_teme">Contorno do vetor :</h2>
+            <input type="color" id="con_layer_style_categoriazado" style="width: 100px;">
+            <h2 class="cat_teme">Largura da linha : </h2>
+            <select name="" id="largura_linha_style_categoriazado" class="sel_teme_white">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <button id="style_aplicar_buttom_categorizado">Aplicar</button>
+        </div>
+
+
+    </div>
+
+
+    <div id="toolboxTools" draggable=true>
+        <h2 class="cat_teme">Ferramenta : </h2>
+        <select name="" id="toolbox_tools" class="sel_teme_white">
+            <option value="buffer">Buffer</option>
+            <option value="editarAttr">Editar Attrs</option>
+            <option value="perimetroTool">Perimetro</option>
+            <option value="areaTool">Area</option>
+            <option value="rotular">Rotular</option>
+
+
+
+        </select>
+
+        <button id="toolbox_tools_buttom">Utilizar</button>
+
+
+
+    </div>
+    <div id="acessar_arquivoTools" draggable=true>
+        <h2 class="cat_teme">Arquivos : </h2>
+        <div id="acessar_arquivos_files"></div>
+    </div>
+
+    <div id="add_arquivoTools" draggable=true>
+        <h2 class="cat_teme">Feição : </h2>
+        <div id="map_addFile"></div>
+        <h2 class="cat_teme">Campos : </h2>
+        <div id="addfile_campos" style="max-height: 300px;overflow: auto;">
+
+        </div>
+        <h2 class="cat_teme">Arquivo : </h2>
+        <img src="img/file.png" id="btn_add_file">
+        <br>
+        <input type="file" id="add_file_feature" style="display: none;">
+
+        <!-- <form action="upload/file/features" method="post" enctype="multipart/form-data" style="display: none;">
+    <input type="file" name="filetoupload" multiple id="add_file_feature"><br>
+   <input type="submit" id="AddFile_tools_buttom_real">
+   </form> -->
+        <h2 class="cat_teme">Descrição : </h2>
+        <input type="text" id="add_file_descricao" class="input" placeholder="breve descrição...">
+        <button id="AddFile_tools_buttom">Utilizar</button>
+
+
+
+    </div>
+
+
+
+
+    <div id="EditarAdminSalvar_div">
+        <h2 class="cat_teme">Atenção, ao clicar no botão, você ira salvar permanentemente as alterações ! </h2>
+        <button id="EditarAdminSalvar">Finalizar</button>
+    </div>
+
+
+    <div id="bufferTools" draggable=true>
+        <h2 class="cat_teme">Tamanho : </h2>
+        <input type="number" id="tamanho_buffer" class="input" placeholder="metros">
+
+
+        <button id="bufferTools_aplicar">Finalizar</button>
+
+
+    </div>
+
+    <div id="rotularTools" draggable=true>
+
+
+        <h2 class="cat_teme">Rotular com : </h2>
+        <select id="rotularTools_layers_campos" class="sel_teme_white"></select>
+
+        <button id="rotularTools_aplicar">Aplicar</button>
+    </div>
+
+    <div id="perimetroToolTools" draggable=true>
+        <h2 class="cat_teme">Casas decimais : </h2>
+        <input type="number" id="perimetroTool_casas_decimais" class="input" placeholder="casas depois da virgula">
+
+
+        <button id="perimetroTool_aplicar">Finalizar</button>
+        <div id="toGetPerimeter">
+
+            <h2 class="cat_teme">Perimetro : ... </h2>
+        </div>
+
+    </div>
+
+
+
+    <div id="areaToolTools" draggable=true>
+        <h2 class="cat_teme">Casas decimais : </h2>
+        <input type="number" id="areaTool_casas_decimais" class="input" placeholder="casas depois da virgula">
+
+
+        <button id="areaTool_aplicar">Finalizar</button>
+        <div id="toGetarea">
+
+            <h2 class="cat_teme">Area : ... </h2>
+        </div>
+
+    </div>
+
+    <div id="editarAttrTools" draggable=true>
+        <div id="editarAttrTools_campos">
+
+        </div>
+
+
+
+        <button id="editarAttrTools_aplicar">Finalizar</button>
+
+
+    </div>
+
+
+
+    <div id="editarTools" draggable=true>
+        <h2 class="cat_teme">Editar a camada : </h2>
+        <select name="" id="editar_layers" class="sel_teme_white">
+
+
+        </select>
+
+
+        <button id="editarTools_aplicar">Aplicar</button>
+
+
+    </div>
+
+
+    <div id="MeasuringTool" draggable=true>
+        <form class="form-inline">
+            <label style="color: rgb(22, 22, 22);">Tipos de Medição : &nbsp;</label>
+            <select id="type" style="width: 170px;" class="sel_teme_white">
+                <option value="length">Comprimento</option>
+                <option value="area">Área</option>
+            </select>
+        </form>
+    </div>
+
+    <div id="buscarTools" draggable=true>
+        <h2 class="cat_teme">Secretaria:</h2>
+        <select name="" id="busca_desenhar_cat_sel" class="sel_teme_white">
+            <option value="Meio_Ambiente">Secretaria do Meio Ambiente</option>
+            <option value="Governo">Secretaria do Governo</option>
+
+        </select>
+        <h2 class="cat_teme">Categoria:</h2>
+        <select name="" id="busca_desenhar_sel" class="sel_teme_white">
+            <option value="Limpeza Publica">Limpeza Publica</option>
+            <option value="Coleta de Residuos">Coleta de Residuos</option>
+            <option value="Meio Ambiente">Meio Ambiente</option>
+            <option value="Proteção Animal">Proteção Animal</option>
+            <option value="Todas">Todas</option>
+
+        </select>
+
+        <button id="buscar_buttom">Buscar</button>
+
+    </div>
+
+    <div id="StatsTools" draggable=true>
+        <h2 class="cat_teme">Secretaria:</h2>
+        <select name="" id="statsdesenhar_cat_sel" class="sel_teme_white">
+            <option value="Meio_Ambiente">Secretaria do Meio Ambiente</option>
+            <option value="Governo">Secretaria do Governo</option>
+
+        </select>
+
+        <h2 class="cat_teme">Perquisar:</h2>
+        <select name="" id="statsdesenhar_sel_consulta" class="sel_teme_white">
+            <option value="Quantidade de Denuncias">Quantidade de Ocorrencias</option>
+            <option value="Denuncia resolvidas">Ocorrencias resolvidas</option>
+            <option value="Denuncias mais frequentes">Categorias mais frequentes</option>
+
+
+
+
+        </select>
+        <table id="resultado">
+
+        </table>
+        <button id="stats_buttom">Buscar</button>
+
+    </div>
+
+
+    <div id="inputRaster" draggable=true>
+        <h2 class="cat_teme">Mapa Base :</h2>
+        <select name="" id="imagem_fundo" class="sel_teme_white">
+
+            <option value="Road">Road</option>
+            <option value="RoadOnDemand">RoadOnDemand</option>
+            <option value="Aerial">Aerial</option>
+            <option value="AerialWithLabels">AerialWithLabels</option>
+            <option value="OSM">OSM</option>
+        </select>
+        <button id="raster_buttom">Carregar</button>
+
+
+
+    </div>
+
+    <div id="inputVector" draggable=true>
+        <h2 class="cat_teme">Escolha o GeoJSON :</h2>
+        <input type="file" id="input_img_vector">
+        <h2 class="cat_teme">Cor do vetor : </h2>
+        <input type="color" class="cor_layer_ocorrencia" id="cor_vet_oc_geojson" style="width: 100px;">
+        <h2 class="cat_teme">Contorno do vetor :</h2>
+        <input type="color" class="cor_layer_ocorrencia" id="cont_vet_oc_geojson" style="width: 100px;">
+        <h2 class="cat_teme">Largura da linha : </h2>
+        <select name="" id="largura_linha_geojson" class="sel_teme_white">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+
+        <h2 class="cat_teme">Nome do layer:</h2>
+        <input type="text" id="nomeLayer_vector" placeholder="Layers1" class="sel_teme_white">
+        <button id="vector_buttom">Carregar</button>
+    </div>
+    <div id="createCampsBack">
+
+    </div>
+    <div id="createCamps" draggable=true>
+
+        <div id="createCamps_campos">
+
+        </div>
+
+        <button id="createCamps_buttom">Feito</button>
+    </div>
+
+    <div id="primeiraDiv">
+        <div id="logIn">
+            <img src="img/logo.jpg" style="margin-left: auto;
+	margin-right: auto;
+    display: block;
+    " id="logo_primeiraDiv">
+            <h2 class="cat_teme">Logar como :</h2>
+            <select name="" id="input_user" class="sel_teme_white">
+                <option value="cidadao">Cidadão</option>
+                <option value="funcionario">Agente da prefeitura</option>
+                <option value="curso">Curso Qgis</option>
+
+            </select>
+            <h2 class="cat_teme" id="mat">CPF :</h2>
+            <input id="user" type="text" maxlength="10" placeholder="Digite seu CPF" style="width: 98%;height: 40px;background-color:rgba(156, 156, 156, 0.068) ;margin-left: 5px;">
+            <h2 class="cat_teme">Senha :</h2>
+            <input id="senha" type="password" maxlength="10" placeholder="Digite sua senha" style="width: 98%;height: 40px;background-color:rgba(156, 156, 156, 0.068) ;margin-left: 5px;">
+            <p id="clickAqui_recuperar">Recuperar senha</p>
+            <button id="exec_LogIn">LogIn</button>
+            <h2 id="clickAqui">Não possui cadastro ainda ? Click aqui e se cadastre !</h2>
+        </div>
+        <div id="cadastroTela">
+            <img src="img/fechar_vermelho.png" style="cursor: pointer; width: 40px; position:absolute; top: 110px; left: 580px; background-color: #4b4a4a41;border: 2px solid #3b3b3bad;border-radius: 5px;" id="fecharCadastro">
+                <h2 class="cat_teme" style="font-size: 20px;">Este cadastro também servirá para o aplicativo Conecta Jacareí</h2>
+            <br>
+                <h2 class="cat_teme">Nome</h2>
+                <input id="nome_cadastro" type="text" maxlength="80" placeholder="Nome" class="sel_teme_white">
+                <h2 class="cat_teme">CPF</h2>
+                <input id="cpf_cadastro" type="text" inputmode="numeric" maxlength="11" placeholder="CPF" class="sel_teme_white">
+                <h2 class="cat_teme">Senha</h2>
+                <input id="senha_cadastro" type="text" maxlength="8" placeholder="Senha" class="sel_teme_white">
+                <h2 class="cat_teme">E-mail</h2>
+                <input id="email_cadastro" type="email" maxlength="40" placeholder="E-mail" class="sel_teme_white">
+                <h2 class="cat_teme">Celular</h2>
+                <input id="celular_cadastro" type="tel" inputmode="numeric" maxlength="15" placeholder="Celular" class="sel_teme_white">
+                <h2 class="cat_teme">Data de nascimento</h2>
+                <input id="nascimento_cadastro" type="date" inputmode="numeric" maxlength="8" placeholder="dd/mm/aaaa" class="sel_teme_white">
+                <h2 class="cat_teme">CEP</h2>
+                <input id="cep_cadastro" type="text" inputmode="numeric" maxlength="8" placeholder="CEP" class="sel_teme_white">
+                <h2 class="cat_teme">Bairro</h2>
+                <input id="bairro_cadastro" type="text" maxlength="30" placeholder="Bairro" class="sel_teme_white">
+                <h2 class="cat_teme">Rua</h2>
+                <input id="rua_cadastro" type="text" maxlength="60" placeholder="Rua" class="sel_teme_white">
+                <h2 class="cat_teme">Número</h2>
+                <input id="numero_cadastro" type="text" inputmode="numeric" maxlength="4" placeholder="Número" class="sel_teme_white">
+                <h2 class="cat_teme">Complemento</h2>
+                <input id="complemento_cadastro" type="text" maxlength="30" placeholder="Complemento" class="sel_teme_white">
+                <button id="cadastrar_buttom">Cadastrar</button>
+        </div>
+    </div>
+    
+
+
+    <!-- <label class="control control-checkbox"> ====== EXEMPLO DE CHECKBOX======
+    FreeHand
+<input type="checkbox" checked="checked" class="LayerChecked" name="freehand" />
+<div class="control_indicator"></div>
+</label> -->
+
+
+    <div id="desenharVector" draggable=true>
+        <h2 class="cat_teme">Tipo de geometria : </h2>
+        <select name="" id="tipo_desenhar" class="sel_teme_white">
+            <option value="Point">Ponto</option>
+            <option value="LineString">Linha</option>
+            <option value="Polygon">Poligono</option>
+
+
+        </select>
+
+        <h2 class="cat_teme">Tipo de desenho : </h2>
+        <select name="" id="modo_desenhar" class="sel_teme_white">
+            <option value="livre">Mão livre</option>
+            <option value="assistido">Desenho assistido</option>
+
+
+        </select>
+        <h2 class="cat_teme">Campos:</h2>
+
+        <div id="addCampo" style="width: 100%;border: 1px solid gray;padding: 10px;">
+            <h2 class="cat_teme">Nome do campo:</h2>
+            <input type="text" id="nomedocampo" placeholder="campo" class="sel_teme_white">
+            <h2 class="cat_teme">Tipo do campo:</h2>
+            <select name="" id="TipoCampo" class="sel_teme_white">
+
+                <option value="number">Double</option>
+                <option value="text">Text</option>
+
+            </select>
+            <button id="campos_vector_buttom">Adicionar</button>
+            <div id="allCampos">
+
+            </div>
+        </div>
+        <h2 class="cat_teme" id="tituloCor">Cor do vetor : </h2>
+        <input type="color" class="cor_layer_desenhar" id="cor_layer_desenhar" style="width: 100px;">
+        <h2 class="cat_teme">Contorno do vetor :</h2>
+        <input type="color" class="cont_layer_desenhar" id="cont_layer_desenhar" style="width: 100px;">
+        <h2 class="cat_teme">Largura da linha : </h2>
+        <select name="" id="largura_linha_desenhar" class="sel_teme_white">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+
+        <h2 class="cat_teme">Nome do layer:</h2>
+        <input type="text" id="nomeLayer_desenhar" placeholder="Layers1" class="sel_teme_white">
+        <button id="desenhar_vector_buttom">Criar</button>
+    </div>
+
+    <h2 class="cat_teme" id="LayersLabel" style="position: absolute;left: 0px;top: 0px; display: none;color:white;">Camadas Ativas</h2>
+    <h2 class="cat_teme" id="MapaBaseLabel" style="position: absolute;left: 0px;top: 0px;display: none;color:white;">MapaBase</h2>
+    <h2 class="cat_teme" id="GradeLabel" style="position: absolute;left: 0px;top: 0px; display: none;color:white;">Grade</h2>
+    <h2 class="cat_teme" id="AddGeoJSONLabel" style="position: absolute;left: 0px;top: 0px; display: none;color:white;">Adicionar GeoJSON</h2>
+    <h2 class="cat_teme" id="EstatisticasLabel" style="position: absolute;left: 0px;top: 0px; display: none;color:white;">Estatisticas</h2>
+    <h2 class="cat_teme" id="buscarLabel" style="position: absolute;left: 0px;top: 0px; display: none;color:white;">Buscar por area</h2>
+    <h2 class="cat_teme" id="criarLabel" style="position: absolute;left: 0px;top: 0px; display: none;color:white;">Criar layers</h2>
+    <h2 class="cat_teme" id="downloadLabel" style="position: absolute;left: 0px;top: 0px; display: none;color:white;">Download de camadas</h2>
+    <h2 class="cat_teme" id="medirLabel" style="position: absolute;left: 0px;top: 0px; display: none;color:white;">Medir</h2>
+    <h2 class="cat_teme" id="exportarLabel" style="position: absolute;left: 0px;top: 0px; display: none;color:white;">Exportar mapa .png</h2>
+    <h2 class="cat_teme" id="estiloLabel" style="position: absolute;left: 0px;top: 0px; display: none;color:white;">Estilo das camadas</h2>
+    <h2 class="cat_teme" id="ferramentasLabel" style="position: absolute;left: 0px;top: 0px; display: none;color:white;">Caixa de ferramentas</h2>
+    <h2 class="cat_teme" id="editarLabel" style="position: absolute;left: 0px;top: 0px; display: none;color:white;">Editar camadas</h2>
+    <h2 class="cat_teme" id="consoleLabel" style="position: absolute;left: 0px;top: 0px; display: none;color:white;">Console</h2>
+    <h2 class="cat_teme" id="admLabel" style="position: absolute;left: 0px;top: 0px; display: none;color:white;">Modo Administrador</h2>
+    <h2 class="cat_teme" id="menu_btn" style="position: absolute;left: 0px;top: 0px; display: none;color:white;">Menu</h2>
+
+
+
+    <!-- JQUERY JS -->
+    <script src="jquery/jquery-3.3.1.js"></script>
+    <!-- OPENLAYERS JS -->
+    <script src="ol_465/ol.js"></script>
+    
+    <script src="js/main.js" id="script"></script>
+
+
+</body>
+
+</html>

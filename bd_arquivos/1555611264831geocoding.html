@@ -1,0 +1,150 @@
+<html>
+
+<head>
+
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    <script src="http://js.api.here.com/v3/3.0/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://js.api.here.com/v3/3.0/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../jquery/jquery-3.3.1.js"></script>
+
+</head>
+
+<body>
+
+    <div style="width: 640px; height: 480px" id="mapContainer"></div>
+
+    <script>
+        var all_objs = [];
+        var allJSON = [];
+
+        $.getJSON(`http://10.68.54.169:443/enderecos/origem`, (data) => {
+            console.log(data);
+            for (var i of data) {
+                    obj_street = {
+                        searchText: `${i.v08}, ${i.v06}, São Paulo, Brasil`,
+                        jsonattributes: 1,
+                        maxresults: 1 // LIMIT RESULTS
+                    };
+                    var url = `https://geocoder.cit.api.here.com/6.2/geocode.json?searchtext=${obj_street.searchText}&app_id=Nn0XTbEYAgc3GGSIFZ24&app_code=6DHqOdzZQOkMO5Qcvd5T2w&gen=8`;
+                    $.getJSON(encodeURI(url),(data,err)=>{
+                        if(err){
+                            console.log('erro');
+                        }
+                        //var endereco = {'coordenadas':data.Response.View[0].Result[0].Location};
+                        console.log(data.Response.View[0].Result[0].Location);
+                    })
+                    all_objs.push(obj_street);
+                }
+                for(var j of data){
+                    allJSON.push(j);
+                }
+        })
+
+
+
+        // INITIALIZE THE PLATFORM OBJECT 
+        // let platform = new H.service.Platform({
+        //     'app_id': 'DpaYQjMHeJkxkm6eAnkW',
+        //     'app_code': 'OJWI_HCMhnxV5-SestMo4Q',
+        //     // useHTTPS: true // TO USE IN THE FUTURE
+        // });
+    //         // FUNCTION => SEARCH FOR A LOCATION BASED ON AN ADDRESS
+    //         geocode = (platform, geocodingParameters) => {
+    //             // INSTANCE OF THE GEOCODING SERVICE
+    //             let geocoder = platform.getGeocodingService();
+
+    //             // GEOCODE METHOD => ADDRESS PARAMETER, CALLBACK ON SUCCESS, CALLBACK ON ERROR
+    //             return new Promise((resolve, reject) => {
+    //                 geocoder.geocode(
+    //                     geocodingParameters,
+    //                     resolve,
+    //                     reject
+    //                 );
+    //             });
+
+    //         };
+    //     // STREETS
+    //     //     streetsValues = [    ],
+    //     //     obj_street = null,
+    //    var count = 0;
+    // var errs = 0;
+    //     // console.log(streetsValues.length);
+    //     // for (let i = 0; i < streetsValues.length; i++) {
+    //     //     obj_street = {
+    //     //         searchText: `${streetsValues[i].rua}, ${streetsValues[i].cidade}, São Paulo, Brasil`,
+    //     //         jsonattributes: 1,
+    //     //         maxresults: 1 // LIMIT RESULTS
+    //     //     };
+    //     //     geocode(platform, obj_street)
+    //     //         .then(result => {
+    //     //             let coord = result.response.view[0].result[0],
+    //     //                 position = {
+    //     //                     lat: coord.location.displayPosition.latitude,
+    //     //                     lng: coord.location.displayPosition.longitude
+    //     //                 };
+    //     //             console.log(`UPDATE mujac_4 SET v24 = ${position.lat}, v25 = ${position.lng} WHERE v12 ilike '%${streetsValues[i].rua}%';`);
+    //     //             // console.log(count++);
+    //     //             // console.log(streetsValues[i].rua);
+    //     //         })
+    //     //         .catch(err => {
+    //     //             console.error(err);
+    //     //         })
+    //     // }
+    //     
+    //     fetch('http://10.68.54.169:443/enderecos/origem')
+    //         .then(response => {
+    //             return response.json();
+    //         })
+    //         .then(data => {
+
+    //             for (var i of data) {
+    //                 obj_street = {
+    //                     searchText: `${i.v08}, ${i.v06}, São Paulo, Brasil`,
+    //                     jsonattributes: 1,
+    //                     maxresults: 1 // LIMIT RESULTS
+    //                 };
+    //                 all_objs.push(obj_street);
+    //             }
+    //             for(var j of data){
+    //                 allJSON.push(j);
+    //             }
+    //             //console.log(all_objs[0]);
+
+
+
+    //         })
+    //         .then(data =>{
+    //             for(var j in all_objs){
+
+    //             geocode(platform, all_objs[j],allJSON[j])
+    //                 .then(result => {
+    //                     let coord = result.response.view[0].result[0],
+    //                         position = {
+    //                             lat: coord.location.displayPosition.latitude,
+    //                             lng: coord.location.displayPosition.longitude
+    //                         };
+
+    //                     console.log(`UPDATE mujac_1 SET v24 = ${position.lat}, v25 = ${position.lng} WHERE v12 ilike '%${allJSON[j].v08}%';`);
+
+    //                 })
+    //                 .catch(err => {
+    //                     console.error(err);
+    //                    // console.log(j.searchText);
+
+    //                 }).finally( ()=>{console.log(count++);
+
+    //                  })
+
+    //             }
+
+    //         })
+
+// 
+
+
+
+    </script>
+
+</body>
+
+</html>
