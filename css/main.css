@@ -41,7 +41,7 @@ html, body {
     height: 100%;
     background-color: #3f3e3ea4;
     z-index: 130;
-    display: none;
+    display: block;
 }
 #logIn{
     position: absolute;
